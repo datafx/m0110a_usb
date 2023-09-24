@@ -1,0 +1,23 @@
+Building and flashing bootloader with Arduino ISP
+
+Load the Arduino ISP sketch from the examples or use the sketch here if you need a clock signal (if you set wrong fuses).
+
+Wire the Arduino to the keyboard as shown in the schematic.
+
+Edit firmware/bootloader/Makefile.inc for your AVR ISP flasher.  When using Arduino ISP use "PROGRAMMER = -c avrisp". 
+
+From firmware/bootloader run "make", "make flash", "make fuse", and finally "make lock".
+
+
+----------------------------------------------------------------------------------------------------------
+
+Manual commands... (a precompiled hex file is inclcluded if you don't want to build it yourself)
+
+//write bootloader
+avrdude -c avrisp -p m32a -P COM3 -b 19200 -U flash:w:main.hex:i 
+//set fuses
+avrdude -c avrisp -p m32a -P COM3 -b 19200 -U lfuse:w:0x1f:m -U hfuse:w:0xc0:m 
+//set lock
+avrdude -c avrisp -p m32a -P COM3 -b 19200 -U lock:w:0x3f:m 
+
+
